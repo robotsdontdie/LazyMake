@@ -1,6 +1,6 @@
 ﻿namespace LazyMake.Language
 {
-    public interface IParsedStep
+    internal interface IParsedStep
     {
     }
 }

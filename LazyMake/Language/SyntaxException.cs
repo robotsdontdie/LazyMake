@@ -9,7 +9,8 @@
         /// Initializes a new instance of the <see cref="SyntaxException"/> class.
         /// </summary>
         /// <param name="message">The exception message.</param>
-        public SyntaxException(string? message) : base(message)
+        public SyntaxException(string? message)
+            : base(message)
         {
         }
     }

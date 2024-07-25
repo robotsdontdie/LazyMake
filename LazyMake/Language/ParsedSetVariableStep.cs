@@ -1,6 +1,6 @@
 ﻿namespace LazyMake.Language
 {
-    public class ParsedSetVariableStep : IParsedStep
+    internal class ParsedSetVariableStep : IParsedStep
     {
         public required string Name { get; init; }
 
