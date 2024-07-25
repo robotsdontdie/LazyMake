@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace LazyMake.Execution
 {
-
     internal class ExecutionPipeline : IExecutionPipeline
     {
         private readonly ILexer lexer;

@@ -1,4 +1,6 @@
 ﻿namespace LazyMake.Commands
 {
-    internal class CommandMetadata { }
+    internal class CommandMetadata
+    {
+    }
 }

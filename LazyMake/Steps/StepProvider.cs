@@ -1,16 +1,9 @@
-﻿using Autofac;
-using Autofac.Features.Indexed;
+﻿using Autofac.Features.Indexed;
 using Autofac.Features.Metadata;
-using LazyMake.Commands;
-using LazyMake.Execution;
-using LazyMake.Language;
-using Serilog;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace LazyMake.Steps
 {
-
     internal class StepProvider : IStepProvider
     {
         private readonly IIndex<string, Meta<IStepExecutor, StepMetadata>> stepIndex;

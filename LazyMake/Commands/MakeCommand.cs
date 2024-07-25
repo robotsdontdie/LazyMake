@@ -4,7 +4,6 @@ using LazyMake.Steps;
 
 namespace LazyMake.Commands
 {
-
     internal class MakeCommand : ICommand
     {
         private readonly IVariableManager variableManager;

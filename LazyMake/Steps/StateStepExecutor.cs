@@ -1,17 +1,8 @@
-﻿using Autofac;
-using Autofac.Features.Indexed;
-using Autofac.Features.Metadata;
-using LazyMake.Commands;
-using LazyMake.Config;
-using LazyMake.Execution;
-using LazyMake.Language;
+﻿using LazyMake.Config;
 using Serilog;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace LazyMake.Steps
 {
-
     [Step("state")]
     internal class StateStepExecutor : IStepExecutor
     {

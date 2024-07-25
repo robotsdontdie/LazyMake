@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace LazyMake.Commands
 {
-
     internal class CommandProvider : ICommandProvider
     {
         private readonly IIndex<string, Meta<ICommand, CommandMetadata>> commandIndex;

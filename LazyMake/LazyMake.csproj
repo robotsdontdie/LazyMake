@@ -35,8 +35,4 @@
     <ItemGroup>
       <AdditionalFiles Include="stylecop.json" />
     </ItemGroup>
-
-    <ItemGroup>
-      <None Include="C:\Users\Sean\Documents\Visual Studio 2022\Projects\LazyMake\LazyMake\.editorconfig" />
-    </ItemGroup>
 </Project>
