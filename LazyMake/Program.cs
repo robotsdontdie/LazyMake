@@ -35,7 +35,17 @@ namespace LazyMake
             var container = builder.Build();
 
             var pipeline = container.Resolve<IExecutionPipeline>();
-            pipeline.Execute("ship state");
+            while (true)
+            {
+                Console.Write(">");
+                var line = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    break;
+                }
+
+                pipeline.Execute(line);
+            }
         }
     }
 }
