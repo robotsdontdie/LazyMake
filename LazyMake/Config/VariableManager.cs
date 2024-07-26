@@ -21,7 +21,7 @@ namespace LazyMake.Config
             if (File.Exists(configPath))
             {
                 string json = File.ReadAllText(configPath);
-                var dto = JsonSerializer.Deserialize<VariablesDto>(json)
+                var dto = JsonSerializer.Deserialize(json, VariablesDtoSerializationContext.Default.VariablesDto)
                     ?? new VariablesDto();
 
                 entries = dto.Entries.Select(e => new VariableEntry
@@ -68,7 +68,7 @@ namespace LazyMake.Config
                     Value = e.Value,
                 }).ToArray(),
             };
-            string json = JsonSerializer.Serialize(dto);
+            string json = JsonSerializer.Serialize(dto, VariablesDtoSerializationContext.Default.VariablesDto);
             File.WriteAllText(configPath, json);
         }
     }
