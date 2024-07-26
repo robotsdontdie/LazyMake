@@ -63,11 +63,11 @@ namespace LazyMake.Execution
             if (firstStep is ParsedNamedStep namedStep
                 && commandProvider.TryGetCommand(namedStep.Name, out var command))
             {
-                command.Execute(context, resolvedSteps);
+                command.Executor.Execute(context, resolvedSteps);
             }
             else
             {
-                commandProvider.MakeCommand.Execute(context, resolvedSteps);
+                commandProvider.MakeCommand.Executor.Execute(context, resolvedSteps);
             }
         }
 

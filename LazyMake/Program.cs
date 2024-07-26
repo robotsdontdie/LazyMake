@@ -1,5 +1,4 @@
-﻿using Autofac;
-using LazyMake.Commands;
+﻿using LazyMake.Commands;
 using LazyMake.Config;
 using LazyMake.Execution;
 using LazyMake.Language;
@@ -17,27 +16,31 @@ namespace LazyMake
                 .WriteTo.Console()
                 .CreateLogger();
 
-            var builder = new ContainerBuilder();
             var steps = new List<IStepDefinition>();
             steps.AddRange(new ReflectionStepLoader().Load());
-
             var stepProvider = new StepProvider(steps);
 
-            builder.RegisterType<CommandProvider>().As<ICommandProvider>();
-            builder.RegisterInstance(Log.Logger).As<ILogger>();
-            builder.RegisterType<AliasResolver>().As<IAliasResolver>();
-            builder.RegisterType<ExecutionPipeline>().As<IExecutionPipeline>();
-            builder.RegisterType<Lexer>().As<ILexer>();
-            builder.RegisterType<Parser>().As<IParser>();
-            builder.RegisterType<MakeCommand>().Keyed<ICommand>("make");
+            var commandProvider = new CommandProvider(new[]
+            {
+                new CommandDefinition
+                {
+                    Name = "make",
+                    Executor = new MakeCommand(stepProvider),
+                },
+            });
 
+            var aliasResolver = new AliasResolver();
+            var lexer = new Lexer();
+            var parser = new Parser();
             var variableManager = new VariableManager();
+            var pipeline = new ExecutionPipeline(
+                Log.Logger,
+                lexer,
+                parser,
+                aliasResolver,
+                commandProvider,
+                variableManager);
 
-            builder.RegisterInstance(variableManager).As<IVariableManager>();
-
-            var container = builder.Build();
-
-            var pipeline = container.Resolve<IExecutionPipeline>();
             while (true)
             {
                 Console.Write(">");

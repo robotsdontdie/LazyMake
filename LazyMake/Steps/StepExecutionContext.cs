@@ -7,6 +7,6 @@ namespace LazyMake.Steps
     {
         public required ILogger Logger { get; init; }
 
-        public required IVariableManager VariableManager { get; init;}
+        public required IVariableManager VariableManager { get; init; }
     }
 }

@@ -3,7 +3,7 @@ using LazyMake.Steps;
 
 namespace LazyMake.Commands
 {
-    internal class MakeCommand : ICommand
+    internal class MakeCommand : ICommandExecutor
     {
         private readonly IStepProvider stepProvider;
 

@@ -1,30 +1,21 @@
-﻿using Autofac.Features.Indexed;
-using Autofac.Features.Metadata;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace LazyMake.Commands
 {
     internal class CommandProvider : ICommandProvider
     {
-        private readonly IIndex<string, Meta<ICommand, CommandMetadata>> commandIndex;
+        private readonly Dictionary<string, ICommandDefinition> commands;
 
-        public CommandProvider(IIndex<string, Meta<ICommand, CommandMetadata>> commandIndex)
+        public CommandProvider(IEnumerable<ICommandDefinition> commands)
         {
-            this.commandIndex = commandIndex;
+            this.commands = commands.ToDictionary(command => command.Name);
         }
 
-        public ICommand MakeCommand => commandIndex["make"].Value;
+        public ICommandDefinition MakeCommand => commands["make"];
 
-        public bool TryGetCommand(string commandName, [NotNullWhen(true)] out ICommand? command)
+        public bool TryGetCommand(string commandName, [NotNullWhen(true)] out ICommandDefinition? command)
         {
-            if (!commandIndex.TryGetValue(commandName, out var meta))
-            {
-                command = null;
-                return false;
-            }
-
-            command = meta.Value;
-            return true;
+            return commands.TryGetValue(commandName, out command);
         }
     }
 }

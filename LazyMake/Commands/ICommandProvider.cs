@@ -4,8 +4,8 @@ namespace LazyMake.Commands
 {
     internal interface ICommandProvider
     {
-        ICommand MakeCommand { get; }
+        ICommandDefinition MakeCommand { get; }
 
-        bool TryGetCommand(string stepName, [NotNullWhen(true)] out ICommand? command);
+        bool TryGetCommand(string commandName, [NotNullWhen(true)] out ICommandDefinition? command);
     }
 }
