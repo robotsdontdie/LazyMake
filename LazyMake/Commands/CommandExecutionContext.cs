@@ -1,6 +1,6 @@
 ﻿using LazyMake.Config;
+using LazyMake.Logging;
 using LazyMake.Steps;
-using Serilog;
 
 namespace LazyMake.Commands
 {

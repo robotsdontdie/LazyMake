@@ -1,7 +1,7 @@
 ﻿using LazyMake.Commands;
 using LazyMake.Config;
 using LazyMake.Language;
-using Serilog;
+using LazyMake.Logging;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LazyMake.Execution

@@ -2,8 +2,8 @@
 using LazyMake.Config;
 using LazyMake.Execution;
 using LazyMake.Language;
+using LazyMake.Logging;
 using LazyMake.Steps;
-using Serilog;
 
 namespace LazyMake
 {
@@ -11,10 +11,7 @@ namespace LazyMake
     {
         internal static void Main()
         {
-            // load configuration
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .CreateLogger();
+            var logger = new Logger();
 
             var steps = new List<IStepDefinition>();
             steps.AddRange(new ReflectionStepLoader().Load());
@@ -34,7 +31,7 @@ namespace LazyMake
             var parser = new Parser();
             var variableManager = new VariableManager();
             var pipeline = new ExecutionPipeline(
-                Log.Logger,
+                logger,
                 lexer,
                 parser,
                 aliasResolver,

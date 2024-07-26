@@ -1,5 +1,5 @@
 ﻿using LazyMake.Config;
-using Serilog;
+using LazyMake.Logging;
 
 namespace LazyMake.Steps
 {

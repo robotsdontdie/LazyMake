@@ -6,7 +6,7 @@
         {
             foreach (var variable in context.VariableManager.Variables)
             {
-                context.Logger.Information($"{variable.Name} -> {variable.Value}");
+                context.Logger.Info($"{variable.Name} -> {variable.Value}");
             }
         }
     }
