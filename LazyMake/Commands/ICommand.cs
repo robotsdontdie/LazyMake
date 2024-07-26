@@ -4,6 +4,6 @@ namespace LazyMake.Commands
 {
     internal interface ICommand
     {
-        void Execute(List<IParsedStep> resolvedSteps);
+        void Execute(CommandExecutionContext context, List<IParsedStep> resolvedSteps);
     }
 }

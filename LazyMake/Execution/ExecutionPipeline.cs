@@ -1,27 +1,34 @@
 ﻿using LazyMake.Commands;
 using LazyMake.Config;
 using LazyMake.Language;
+using Serilog;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LazyMake.Execution
 {
     internal class ExecutionPipeline : IExecutionPipeline
     {
+        private readonly ILogger logger;
         private readonly ILexer lexer;
         private readonly IParser parser;
         private readonly IAliasResolver aliasResolver;
         private readonly ICommandProvider commandProvider;
+        private readonly IVariableManager variableManager;
 
         public ExecutionPipeline(
+            ILogger logger,
             ILexer lexer,
             IParser parser,
             IAliasResolver aliasResolver,
-            ICommandProvider commandProvider)
+            ICommandProvider commandProvider,
+            IVariableManager variableManager)
         {
+            this.logger = logger;
             this.lexer = lexer;
             this.parser = parser;
             this.aliasResolver = aliasResolver;
             this.commandProvider = commandProvider;
+            this.variableManager = variableManager;
         }
 
         public void Execute(string line)
@@ -47,15 +54,20 @@ namespace LazyMake.Execution
                 throw new NotImplementedException();
             }
 
+            var context = new CommandExecutionContext
+            {
+                Logger = logger,
+                VariableManager = variableManager,
+            };
             var firstStep = resolvedSteps[0];
             if (firstStep is ParsedNamedStep namedStep
                 && commandProvider.TryGetCommand(namedStep.Name, out var command))
             {
-                command.Execute(resolvedSteps);
+                command.Execute(context, resolvedSteps);
             }
             else
             {
-                commandProvider.MakeCommand.Execute(resolvedSteps);
+                commandProvider.MakeCommand.Execute(context, resolvedSteps);
             }
         }
 

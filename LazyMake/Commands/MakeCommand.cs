@@ -1,31 +1,28 @@
-﻿using LazyMake.Config;
-using LazyMake.Language;
+﻿using LazyMake.Language;
 using LazyMake.Steps;
 
 namespace LazyMake.Commands
 {
     internal class MakeCommand : ICommand
     {
-        private readonly IVariableManager variableManager;
         private readonly IStepProvider stepProvider;
 
-        public MakeCommand(IVariableManager variableManager, IStepProvider stepProvider)
+        public MakeCommand(IStepProvider stepProvider)
         {
-            this.variableManager = variableManager;
             this.stepProvider = stepProvider;
         }
 
-        public void Execute(List<IParsedStep> resolvedSteps)
+        public void Execute(CommandExecutionContext context, List<IParsedStep> resolvedSteps)
         {
             foreach (var step in resolvedSteps)
             {
                 switch (step)
                 {
-                    case ParsedSetVariableStep setVariableStep:
-                        ExecuteSetVariable(setVariableStep);
-                        break;
                     case ParsedNamedStep namedStep:
-                        ExecuteNamedStep(namedStep);
+                        ExecuteNamedStep(context, namedStep);
+                        break;
+                    case ParsedSetVariableStep setVariableStep:
+                        ExecuteSetVariable(context, setVariableStep);
                         break;
                     default:
                         break;
@@ -33,19 +30,19 @@ namespace LazyMake.Commands
             }
         }
 
-        private void ExecuteNamedStep(ParsedNamedStep namedStep)
+        private void ExecuteNamedStep(CommandExecutionContext context, ParsedNamedStep namedStep)
         {
             if (!stepProvider.TryGetStep(namedStep.Name, out var step))
             {
                 throw new ExecutionException();
             }
 
-            step.Execute();
+            step.Executor.Execute(context.CreateStepExecutionContext());
         }
 
-        private void ExecuteSetVariable(ParsedSetVariableStep setVariableStep)
+        private void ExecuteSetVariable(CommandExecutionContext context, ParsedSetVariableStep setVariableStep)
         {
-            variableManager.Set(setVariableStep.Name, setVariableStep.Value);
+            context.VariableManager.Set(setVariableStep.Name, setVariableStep.Value);
         }
     }
 }

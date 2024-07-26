@@ -18,8 +18,11 @@ namespace LazyMake
                 .CreateLogger();
 
             var builder = new ContainerBuilder();
-            new ReflectionStepLoader().Load(builder);
-            builder.RegisterType<StepProvider>().As<IStepProvider>();
+            var steps = new List<IStepDefinition>();
+            steps.AddRange(new ReflectionStepLoader().Load());
+
+            var stepProvider = new StepProvider(steps);
+
             builder.RegisterType<CommandProvider>().As<ICommandProvider>();
             builder.RegisterInstance(Log.Logger).As<ILogger>();
             builder.RegisterType<AliasResolver>().As<IAliasResolver>();

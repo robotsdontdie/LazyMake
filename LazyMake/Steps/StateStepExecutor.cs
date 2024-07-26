@@ -1,25 +1,12 @@
-﻿using LazyMake.Config;
-using Serilog;
-
-namespace LazyMake.Steps
+﻿namespace LazyMake.Steps
 {
-    [Step("state")]
     internal class StateStepExecutor : IStepExecutor
     {
-        private readonly ILogger logger;
-        private readonly IVariableManager variableManager;
-
-        public StateStepExecutor(ILogger logger, IVariableManager variableManager)
+        public void Execute(StepExecutionContext context)
         {
-            this.logger = logger;
-            this.variableManager = variableManager;
-        }
-
-        public void Execute()
-        {
-            foreach (var variable in variableManager.Variables)
+            foreach (var variable in context.VariableManager.Variables)
             {
-                logger.Information($"{variable.Name} -> {variable.Value}");
+                context.Logger.Information($"{variable.Name} -> {variable.Value}");
             }
         }
     }

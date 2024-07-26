@@ -1,28 +1,19 @@
-﻿using Autofac.Features.Indexed;
-using Autofac.Features.Metadata;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace LazyMake.Steps
 {
     internal class StepProvider : IStepProvider
     {
-        private readonly IIndex<string, Meta<IStepExecutor, StepMetadata>> stepIndex;
+        private readonly Dictionary<string, IStepDefinition> steps;
 
-        public StepProvider(IIndex<string, Meta<IStepExecutor, StepMetadata>> stepIndex)
+        public StepProvider(IEnumerable<IStepDefinition> steps)
         {
-            this.stepIndex = stepIndex;
+            this.steps = steps.ToDictionary(step => step.Name);
         }
 
-        public bool TryGetStep(string stepName, [NotNullWhen(true)] out IStepExecutor? stepExecutor)
+        public bool TryGetStep(string stepName, [NotNullWhen(true)] out IStepDefinition? step)
         {
-            if (!stepIndex.TryGetValue(stepName, out var meta))
-            {
-                stepExecutor = null;
-                return false;
-            }
-
-            stepExecutor = meta.Value;
-            return true;
+            return steps.TryGetValue(stepName, out step);
         }
     }
 }

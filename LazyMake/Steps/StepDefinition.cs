@@ -1,6 +1,6 @@
 ﻿namespace LazyMake.Steps
 {
-    internal class StepDefinition
+    internal class StepDefinition : IStepDefinition
     {
         public required string Name { get; init; }
 

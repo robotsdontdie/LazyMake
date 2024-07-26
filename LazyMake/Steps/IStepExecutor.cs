@@ -2,6 +2,6 @@
 {
     internal interface IStepExecutor
     {
-        void Execute();
+        void Execute(StepExecutionContext context);
     }
 }

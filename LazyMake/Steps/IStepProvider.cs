@@ -4,6 +4,6 @@ namespace LazyMake.Steps
 {
     internal interface IStepProvider
     {
-        bool TryGetStep(string stepName, [NotNullWhen(true)] out IStepExecutor? stepExecutor);
+        bool TryGetStep(string stepName, [NotNullWhen(true)] out IStepDefinition? step);
     }
 }
