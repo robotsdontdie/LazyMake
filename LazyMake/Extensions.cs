@@ -11,5 +11,15 @@ namespace LazyMake
         {
             return param ?? throw new ArgumentNullException(paramExpression);
         }
+
+        public static IEnumerable<(int Index, T Value)> Index<T>(this IEnumerable<T> enumerable)
+        {
+            int index = 0;
+            var enumerator = enumerable.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                yield return (index++, enumerator.Current);
+            }
+        }
     }
 }
